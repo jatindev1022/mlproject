@@ -1,4 +1,5 @@
-import sys 
+import sys
+from src.logger import logging
 
 def error_message_detail(error, error_detail: sys):
     _, _, exe_tb = error_detail.exc_info()
@@ -6,13 +7,7 @@ def error_message_detail(error, error_detail: sys):
     file_name = exe_tb.tb_frame.f_code.co_filename if exe_tb else "Unknown"
     line_number = exe_tb.tb_lineno if exe_tb else "Unknown"
 
-    error_message = 'Error occurred in python script name [{0}] line [{1}] error message [{2}]'.format(
-        file_name,
-        line_number,
-        str(error)
-    )
-
-    return error_message
+    return f"Error occurred in [{file_name}] line [{line_number}] message [{str(error)}]"
 
 
 class CustomException(Exception):
@@ -22,3 +17,11 @@ class CustomException(Exception):
 
     def __str__(self):
         return self.error_message
+
+
+# if __name__ == "__main__":
+#     try:
+#         a = 1 / 0
+#     except Exception as e:
+#         logging.error("Exception occurred", exc_info=True)
+#         raise CustomException(e, sys)
